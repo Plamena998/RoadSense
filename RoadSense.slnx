@@ -1,5 +1,8 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="src/RoadSense.Application/RoadSense.Application.csproj" />
+    <Project Path="src/RoadSense.Domain/RoadSense.Domain.csproj" />
+    <Project Path="src/RoadSense.Infrastructure/RoadSense.Infrastructure.csproj" />
     <Project Path="src/RoadSense.Web/RoadSense.Web.csproj" />
   </Folder>
 </Solution>

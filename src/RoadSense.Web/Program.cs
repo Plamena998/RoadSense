@@ -1,9 +1,24 @@
+using RoadSense.Application.Abstractions;
+using RoadSense.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddInfrastructure(new InfrastructureOptions(
+    ConnectionString: builder.Configuration.GetConnectionString("RoadSense")!,
+    ProcessedDataPath: Path.GetFullPath(Path.Combine(
+        builder.Environment.ContentRootPath,
+        builder.Configuration["DataImport:ProcessedPath"]!))));
+
 var app = builder.Build();
+
+// При старт: създава/обновява базата и зарежда данните, ако е празна.
+using (var scope = app.Services.CreateScope())
+{
+    await scope.ServiceProvider.GetRequiredService<IDatabaseInitializer>().InitializeAsync();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
