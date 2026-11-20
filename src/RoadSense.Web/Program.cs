@@ -1,4 +1,5 @@
 using RoadSense.Application.Abstractions;
+using RoadSense.Application.SpeedAdvisory;
 using RoadSense.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,8 @@ builder.Services.AddInfrastructure(new InfrastructureOptions(
     ProcessedDataPath: Path.GetFullPath(Path.Combine(
         builder.Environment.ContentRootPath,
         builder.Configuration["DataImport:ProcessedPath"]!))));
+
+builder.Services.AddSingleton<SpeedAdvisor>();
 
 var app = builder.Build();
 

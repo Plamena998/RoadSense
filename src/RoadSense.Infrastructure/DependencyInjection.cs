@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RoadSense.Application.Abstractions;
 using RoadSense.Infrastructure.Import;
 using RoadSense.Infrastructure.Persistence;
+using RoadSense.Infrastructure.Weather;
 
 namespace RoadSense.Infrastructure;
 
@@ -16,6 +17,11 @@ public static class DependencyInjection
         services.AddScoped<DataImporter>();
         services.AddScoped<IDatabaseInitializer, DatabaseInitializer>();
         services.AddScoped<IRoadSenseData, RoadSenseData>();
+        services.AddHttpClient<IWeatherProvider, OpenMeteoWeatherProvider>(c =>
+        {
+            c.BaseAddress = new Uri("https://api.open-meteo.com/");
+            c.Timeout = TimeSpan.FromSeconds(10);
+        });
         return services;
     }
 }
